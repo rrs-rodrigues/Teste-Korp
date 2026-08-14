@@ -1,0 +1,63 @@
+---
+- name: Instalação do Docker 
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Certificando que as dependencias estão instaladas
+      ansible.builtin.package:
+        name:
+          - bc
+          - curl
+          - expect
+          - git
+          - ca-certificates
+        state: present
+
+    - name: Criando diretorio Docker GPG key
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: "0644"
+
+    - name: Adicionando ao sources
+      ansible.builtin.apt_repository:
+        repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        filename: docker
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Instalando Docker e Docker Compose
+      ansible.builtin.package:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+
+    - name: Garantindo a inicialização do docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ubuntu user to docker group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: yes
