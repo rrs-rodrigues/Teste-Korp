@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copie APENAS os arquivos de módulo primeiro. 
 # Isso faz com que o Docker faça cache das dependências, acelerando builds futuros.
-COPY go.mod ./
+COPY go.mod ./  
 # Se você tiver um arquivo go.sum, descomente a linha abaixo:
 # COPY go.sum ./
 

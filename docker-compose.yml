@@ -22,7 +22,7 @@ services:
       - "projeto.localhost:172.22.0.11"
  golang:
     build:
-      context: ./app
+      context: ./go
       dockerfile: Dockerfile
     container_name: golang
     ports:
