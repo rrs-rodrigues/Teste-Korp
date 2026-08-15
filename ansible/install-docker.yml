@@ -56,8 +56,8 @@
         state: started
         enabled: yes
 
-    - name: Add ubuntu user to docker group
+    - name: Adicionar usuario atual ao grupo docker
       ansible.builtin.user:
-        name: ubuntu
+        name: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}" 
         groups: docker
         append: yes
