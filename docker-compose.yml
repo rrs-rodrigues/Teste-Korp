@@ -39,6 +39,10 @@ services:
     networks:
       workflows-network:
         ipv4_address: 172.22.0.12
+    volumes:
+      - ./grafana/datasources/:/etc/grafana/provisioning/datasources/:rw
+      - ./grafana/dashboards/:/etc/grafana/provisioning/dashboards/:rw
+      - ./grafana/dashboards/app-dashboard.json:/var/lib/grafana/dashboards/app-dashboard.json:rw
 
  prometheus:
     image: prom/prometheus:latest

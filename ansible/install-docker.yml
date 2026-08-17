@@ -61,3 +61,9 @@
         name: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}" 
         groups: docker
         append: yes
+
+    - name: Force systemd to reload config files
+      ansible.builtin.systemd:
+        name: docker  
+        daemon_reload: yes
+        
