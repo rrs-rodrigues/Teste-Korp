@@ -67,3 +67,8 @@
         name: docker  
         daemon_reload: yes
         
+    - name: Inicia docker compose
+      ansible.builtin.command:
+        cmd: docker compose up -d
+        chdir: ../
+    
